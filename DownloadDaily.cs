@@ -1,9 +1,11 @@
 using Azure.Data.Tables;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.DurableTask;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Logging;
 
 namespace YellowHouse.N3rgy;
+
 public class DownloadDaily(IHttpClientFactory httpClientFactory, IAzureClientFactory<TableClient> tableClient)
 {
     private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
@@ -28,6 +30,25 @@ public class DownloadDaily(IHttpClientFactory httpClientFactory, IAzureClientFac
     }
 }
 
-internal record IngestionRecord(
+[DurableTask(nameof(DownloadOrchestrator))]
+public class DownloadOrchestrator : TaskOrchestrator<string, string>
+{
+    public override async Task<string> RunAsync(TaskOrchestrationContext context, string input)
+    {
+        ILogger logger = context.CreateReplaySafeLogger<DownloadOrchestrator>();
+        return await context.CallDownloadDataAsync(input);
+    }
+}
 
-);
+[DurableTask(nameof(DownloadData))]
+public class DownloadData(ILogger<DownloadDaily> logger) : TaskActivity<string, string>
+{
+    private readonly ILogger<DownloadDaily> logger = logger;
+
+    public override Task<string> RunAsync(TaskActivityContext context, string input)
+    {
+        return Task.FromResult("foo");
+    }
+}
+
+internal record IngestionRecord();
