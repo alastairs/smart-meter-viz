@@ -40,6 +40,8 @@ TestResult.xml
 
 __azurite*.json
 __blobstorage__
+__queuestorage__
+__tablestorage__
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
