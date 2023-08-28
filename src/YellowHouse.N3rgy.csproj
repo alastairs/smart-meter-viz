@@ -1,17 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <PublishReadyToRun Condition="'$(_IsPublishing)' == 'true'">true</PublishReadyToRun>
     <RuntimeIdentifier Condition="'$(_IsPublishing)' == 'true'">win-x86</RuntimeIdentifier>
     <OutputType>Exe</OutputType>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <LangVersion>Preview</LangVersion>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.10.0" />
